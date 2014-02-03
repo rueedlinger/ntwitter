@@ -39,3 +39,15 @@ this node.js example.
 	# Bind the source and sink to the channel
 	a1.sources.r1.channels = c1
 	a1.sinks.k1.channel = c1
+	
+After that start flume
+
+	$ bin/flume-ng agent --conf conf --conf-file example.conf --name a1 -Dflume.root.logger=INFO,console
+
+So now you can start the node.js example scripts to collect tweets and send them to or flume agent
+
+	# for streams
+	node stream.js
+	
+	# to catch the last tweets from some followers
+	node fetch.js
