@@ -49,5 +49,5 @@ So now you can start the node.js example scripts to collect tweets and send them
 	# for streams
 	node stream.js
 	
-	# to catch the last tweets from some followers
+	# to catch the last tweets from specific users
 	node fetch.js
