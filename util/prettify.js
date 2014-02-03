@@ -17,8 +17,8 @@ function toXsvFormat(tweet, delim) {
 	var out = id + delim + created.getFullYear() + delim + (created.getMonth() + 1) + delim + created.getDate() + delim
 		+ updated.getFullYear() + delim + (updated.getMonth() + 1) + delim + updated.getDate() + delim
 		+ userName + delim + userId + delim  + text + delim 
-		+  lang + delim + rcount + delim + followers + '\n';
-	return out;
+		+  lang + delim + rcount + delim + followers;
+	return out  + '\n';
 }
 
 module.exports.toCsvFormat = function(tweet) {
@@ -42,7 +42,7 @@ module.exports.toString = function(tweet) {
 	var followers = user.followers_count;
 
 	var out = 'tweet: ' + id + ' from the ' + created.toJSON()  + ' by user ' + userName + ' (' + userId + ')';
-	return out;
+	return out + '\n';
 }
 
 module.exports.toJson = function(tweet) {
@@ -73,5 +73,5 @@ module.exports.toJson = function(tweet) {
 		followers: followers
 	};
 	
-	return JSON.stringify(out);
+	return JSON.stringify(out) + '\n';
 }
