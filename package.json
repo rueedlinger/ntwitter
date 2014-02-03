@@ -1,0 +1,21 @@
+{
+  "name": "ntwitter",
+  "version": "0.0.0",
+  "description": "ntwitter\r ========",
+  "main": "fetch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rueedlinger/ntwitter.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/rueedlinger/ntwitter/issues"
+  },
+  "dependencies": {
+    "twit": "~1.1.12"
+  }
+}
