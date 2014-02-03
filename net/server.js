@@ -1,9 +1,7 @@
 var net = require('net');
+var conf = require('../conf');
 
 net.createServer(function (socket) {
- 
-  // Identify this client
-  socket.name = socket.remoteAddress + ":" + socket.remotePort 
  
   socket.on('connection', function (data) {
 	console.log(data);
@@ -25,6 +23,6 @@ net.createServer(function (socket) {
   });
 
  
-}).listen(8124);
+}).listen(conf.port);
 
-console.log('server running...');
+console.log('server running on port: ' + conf.port);

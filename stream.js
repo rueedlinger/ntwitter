@@ -12,6 +12,6 @@ var stream = T.stream('statuses/filter', { track: conf.track });
 
 stream.on('tweet', function (tweet) {
 	//console.log(tweet);
-	client.write(prettify.toString(tweet));
+	client.write(prettify.toJson(tweet));
 	console.log(prettify.toString(tweet));
 });
