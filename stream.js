@@ -14,4 +14,4 @@ stream.on('tweet', function (tweet) {
 	//console.log(tweet);
 	client.write(prettify.toString(tweet));
 	console.log(prettify.toString(tweet));
-})
+});
