@@ -17,7 +17,7 @@ for(var j = 0; j < conf.follow.length; j++) {
 		console.log('tweet no #' + i);
 		
 		var tweet = reply[i];
-		console.log(prettify.toString(tweet));	
+		console.log(prettify.toJson(tweet));	
 		
 	  }  
 	});
