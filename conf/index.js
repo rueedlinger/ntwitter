@@ -1,6 +1,6 @@
 var config = {
 	// twitter credentials
-    consumer_key:         'REPLACE',
+	consumer_key:         'REPLACE',
 	consumer_secret:      'REPLACE',
 	access_token:         'REPLACE',
 	access_token_secret:  'REPLACE',
