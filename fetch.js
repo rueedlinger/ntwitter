@@ -21,7 +21,7 @@ for(var j = 0; j < conf.follow.length; j++) {
 	  for(var i = 0; i < max; i++) {
 		var tweet = reply[i];
 		console.log(prettify.toString(tweet));	
-		client.write(prettify.toJson(tweet));
+		client.write(prettify.toFlumeEventJson(tweet));
 	  }  
 	});	
 }
