@@ -106,7 +106,9 @@ module.exports.toFlumeEventJson = function(tweet) {
 	};
 	
 	var event = {
-		timestamp: updated.getTime(),
+		headers: {
+			timestamp: updated.getTime()
+		},
 		body: body
 	};
 	
