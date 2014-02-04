@@ -24,8 +24,8 @@ for(var j = 0; j < conf.follow.length; j++) {
 	  var max = reply.length;
 	  for(var i = 0; i < max; i++) {
 		var tweet = reply[i];
-		console.log(prettify.toJson(tweet));	
-		client.write(prettify.toString(tweet));
+		console.log(prettify.toString(tweet));	
+		client.write(prettify.toJson(tweet));
 	  }  
 	});	
 }
