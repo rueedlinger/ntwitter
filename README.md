@@ -17,7 +17,7 @@ this node.js example.
 
 
 	# agent.conf: A single-node Flume configuration
-
+	
 	# Name the components on this agent
 	a1.sources = r1
 	a1.sinks = k1
@@ -27,16 +27,25 @@ this node.js example.
 	a1.sources.r1.type = netcat
 	a1.sources.r1.bind = localhost
 	a1.sources.r1.port = 8124
+	a1.sources.r1.interceptors = a
+	a1.sources.r1.interceptors.a.type = org.apache.flume.interceptor.TimestampInterceptor$Builder
 
 	# Use a channel which buffers events in memory
 	a1.channels.c1.type = memory
-	a1.channels.c1.capacity = 1000
+	a1.channels.c1.capacity = 10000
 	a1.channels.c1.transactionCapacity = 100
 
-	# sink
-	a1.sinks.k1.type = file_roll
+	a1.sinks.k1.type = hdfs
 	a1.sinks.k1.channel = c1
-	a1.sinks.k1.sink.directory = /tmp/flume
+	a1.sinks.k1.hdfs.path = /tweets/%Y/%m/%d
+	a1.sinks.k1.hdfs.filePrefix = tweets
+	a1.sinks.k1.hdfs.useLocalTimeStamp = false
+	a1.sinks.k1.hdfs.fileType = DataStream
+	a1.sinks.k1.hdfs.writeFormat = Text
+	a1.sinks.k1.hdfs.rollInterval = 0
+	a1.sinks.k1.hdfs.rollSize = 0
+	a1.sinks.k1.hdfs.hdfs.batchSize = 10
+	a1.sinks.k1.hdfs.rollCount = 100
 
 	# Bind the source and sink to the channel
 	a1.sources.r1.channels = c1
