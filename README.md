@@ -5,7 +5,7 @@ Example node.js project how to fetch twitter streams. This project can be used t
 send them to a tcp server like netcat in apache flume.
 
 + conf/index.js - adapt the configuration to your need.
-+ net - socket client which sends fetched twitter stream to a specify tcp server. 
++ net - mock netcat socket client which sends fetched twitter stream to a specify tcp server. 
 + util - utilities which formats tweets to readable format.
 + stream.js - listen to the public twitter stream for specific keys
 + fetch.js - fetch twitter streams from different twitter accounts.
@@ -62,3 +62,26 @@ So now you can start the node.js example scripts to collect tweets and send them
 	
 	# to catch the last tweets from specific users
 	node fetch.js
+	
+fetch.js and stream.js create the following JSON event which can be processed by flume.
+
+	{"headers":
+		{"timestamp":1391551559357},
+	
+	"body":{
+		"id":"12345678",
+		"createdYear":2013,
+		"createdMonth":2,
+		"createdDay":1,
+		"userName":"SuperBowl",
+		"userId":"19425947",
+		"text":"E.J. Manuel: I would love to play for @Eagles coach Chip Kelly",
+		"lang":"en",
+		"rcount":66,
+		"followers":155282,
+		"source":"twitter"
+		}
+	}
+	
+All tweets are then stored in the hdfs directory /tweets
+	hadoop fs -ls /tweets
