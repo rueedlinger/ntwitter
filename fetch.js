@@ -1,3 +1,7 @@
+/*
+	Fetch tweets from specify users
+*/
+
 var Twit = require('twit');
 
 var conf = require('./conf');
@@ -20,8 +24,8 @@ for(var j = 0; j < conf.follow.length; j++) {
 	  var max = reply.length;
 	  for(var i = 0; i < max; i++) {
 		var tweet = reply[i];
-		console.log(prettify.toString(tweet));	
-		client.write(prettify.toFlumeEventJson(tweet));
+		console.log(prettify.toJson(tweet));	
+		client.write(prettify.toString(tweet));
 	  }  
 	});	
 }
