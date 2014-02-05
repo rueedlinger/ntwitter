@@ -56,8 +56,11 @@ module.exports.toJson = function(tweet) {
 	var userId = user.id_str;
 	var userName = user.screen_name.replace('\t',' ');
 	var followers = user.followers_count;
-
-	var body = {
+	
+	var event = {
+		headers: {
+			timestamp: updated.getTime()
+		},
 		id: id,
 		createdYear: created.getFullYear(),
 		createdMonth: (created.getMonth() + 1),
@@ -69,13 +72,6 @@ module.exports.toJson = function(tweet) {
 		rcount: rcount,
 		followers: followers,
 		source: 'twitter'
-	};
-	
-	var event = {
-		headers: {
-			timestamp: updated.getTime()
-		},
-		body: body
 	};
 	
 	return JSON.stringify(event)  + '\n';

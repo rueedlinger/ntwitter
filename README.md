@@ -17,7 +17,7 @@ this node.js example.
 
 
 	# agent.conf: A single-node Flume configuration
-	
+
 	# Name the components on this agent
 	a1.sources = r1
 	a1.sinks = k1
@@ -43,9 +43,10 @@ this node.js example.
 	a1.sinks.k1.hdfs.fileType = DataStream
 	a1.sinks.k1.hdfs.writeFormat = Text
 	a1.sinks.k1.hdfs.rollInterval = 0
-	a1.sinks.k1.hdfs.rollSize = 0
+	a1.sinks.k1.hdfs.rollSize = 10485760
 	a1.sinks.k1.hdfs.hdfs.batchSize = 10
-	a1.sinks.k1.hdfs.rollCount = 100
+	a1.sinks.k1.hdfs.rollCount = 0
+	a1.sinks.k1.hdfs.idleTimeout = 30
 
 	# Bind the source and sink to the channel
 	a1.sources.r1.channels = c1
@@ -65,10 +66,8 @@ So now you can start the node.js example scripts to collect tweets and send them
 	
 fetch.js and stream.js create the following JSON event which can be processed by flume.
 
-	{"headers":
-		{"timestamp":1391551559357},
-	
-	"body":{
+	{
+		"headers": {"timestamp":1391551559357},
 		"id":"12345678",
 		"createdYear":2013,
 		"createdMonth":2,
@@ -80,8 +79,29 @@ fetch.js and stream.js create the following JSON event which can be processed by
 		"rcount":66,
 		"followers":155282,
 		"source":"twitter"
-		}
 	}
 	
 All tweets are then stored in the hdfs directory /tweets
+
 	hadoop fs -ls /tweets
+	
+A  better way is to create a hive table. This way we can use hive to analyse the tweets.
+
+	CREATE EXTERNAL TABLE IF NOT EXISTS tweets_02_05 (
+			id string, 
+			createdYear int, 
+			createdMonth int, 
+			createdDay int, 
+			userName string, 
+			userId string, 
+			text string, 
+			lang string, 
+			rcount int, 
+			followers int, 
+			source string) 
+		ROW FORMAT SERDE 'org.apache.hadoop.hive.contrib.serde2.JsonSerde' 
+		LOCATION '/tweets/2014/02/05/';
+		
+Now we can query our data with hive
+
+	select * from tweets_02_05;
