@@ -1,5 +1,5 @@
 /*
-	Netct Flume mock server
+	Netcat Flume mock server
 */
 var net = require('net');
 var conf = require('../conf');
