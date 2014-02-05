@@ -1,27 +1,34 @@
 ntwitter
 ========
 
-Example node.js project how to fetch twitter streams. This project can be used to fetch twitter streams and
+This is an example node.js project to fetch twitter streams. This project can be used to fetch twitter streams and
 send them to a tcp server like netcat in apache flume.
 
 To play around with this example you need a system with the following installed components
-+ Node.js
-+ Apache Hadoop
-+ Apache Flume
-+ Apache Hive
++ [Node.js](http://nodejs.org/)
++ [Apache Hadoop](https://hadoop.apache.org/)
++ [Apache Flume](http://flume.apache.org/)
++ [Apache Hive](http://hive.apache.org/)
 
 
 This node.js project consist of the following files:
 
 + conf/index.js - adapt the configuration to your need.
-+ net - mock netcat socket client which sends fetched twitter stream to a specify tcp server. 
++ net - mock netcat socket server and tcp client which sends fetched twitter stream (JSON) to a specify tcp flume agent server. 
 + util - utilities which formats tweets to a readable format.
 + stream.js - listen to the public twitter stream for specific keywords.
 + fetch.js - fetch twitter streams from different twitter accounts.
 
 
-The following flume config starts a netcat server which can be used to collect tweets from
-this node.js example.
+### Analyse twitter tweets with Apache Hive and Apache Flume
+
+The node.js client collects tweets and send them as JSON events to a Flume agent. The flume agent receives
+the json events over a TCP server. The collected tweets are then send to HDFS and split up by year, month and day. 
+
+	JSON tweets (node client) --> source (TCP server) --> HDFS sink /tweets/${year}/${month}/${day}
+
+The following Apache Flume config starts a netcat server which can be used to collect tweets from
+the node.js twitter client.
 
 
 	# agent.conf: A single-node Flume configuration
@@ -64,7 +71,7 @@ After that start flume
 
 	$ flume-ng agent --conf conf -f agent.conf --name a1
 
-So now you can start the node.js example scripts to collect tweets and send them to or flume agent
+So now you can start the node.js example scripts to collect tweets and send them to the Apache Flume agent
 
 	# for streams
 	node stream.js
@@ -93,11 +100,11 @@ All tweets are then stored in the hdfs directory /tweets
 
 	hadoop fs -ls /tweets
 	
-A  better way is to create a hive table. This way we can use hive to analyse the tweets.
+A  better way is to create a hive table. This way we can use Apache Hive to analyse the tweets.
 You need the [hive-json-serde](https://code.google.com/p/hive-json-serde/) to handle JSON
-with hive.
+with Apache Hive.
 
-	CREATE EXTERNAL TABLE IF NOT EXISTS tweets_02_05 (
+	CREATE EXTERNAL TABLE IF NOT EXISTS tweets_2014_02_05 (
 			id string, 
 			createdYear int, 
 			createdMonth int, 
@@ -112,6 +119,33 @@ with hive.
 		ROW FORMAT SERDE 'org.apache.hadoop.hive.contrib.serde2.JsonSerde' 
 		LOCATION '/tweets/2014/02/05/';
 		
-Now we can query our data with hive
+Now we can query our data with Apache Hive.
 
-	select * from tweets_02_05;
+	select * from tweets_2014_02_05;
+	
+More comfortable and better for the performance is to create a Hive partition by year, month and day.
+
+	CREATE EXTERNAL TABLE IF NOT EXISTS tweets (
+			id string, 
+			createdYear int, 
+			createdMonth int, 
+			createdDay int, 
+			userName string, 
+			userId string, 
+			text string, 
+			lang string, 
+			rcount int, 
+			followers int, 
+			source string) 
+		PARTITIONED BY (year int, month int, day int) 
+		ROW FORMAT SERDE 'org.apache.hadoop.hive.contrib.serde2.JsonSerde';
+
+Then add a external partition for all stored tweets.
+		
+	ALTER TABLE tweets 
+		ADD PARTITION(year = 2014, month = 2, day = 5) 
+		LOCATION '/tweets/2014/02/05/';
+	
+All tweets can then be displayed with the following query.
+
+	select * from tweets;

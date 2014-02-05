@@ -1,3 +1,6 @@
+/*
+	Netct Flume mock server
+*/
 var net = require('net');
 var conf = require('../conf');
 
@@ -25,4 +28,4 @@ net.createServer(function (socket) {
  
 }).listen(conf.port);
 
-console.log('server running on port: ' + conf.port);
+console.log('mock server running on port: ' + conf.port);
