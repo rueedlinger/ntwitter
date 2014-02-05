@@ -1,15 +1,23 @@
 ntwitter
 ========
 
-Example node.js project how to fetch twitter streams. This project can be used to fecth twitter streams and
+Example node.js project how to fetch twitter streams. This project can be used to fetch twitter streams and
 send them to a tcp server like netcat in apache flume.
+
+To play around with this example you need a system with the following installed components
++ Node.js
++ Apache Hadoop
++ Apache Flume
++ Apache Hive
+
+
+This node.js project consist of the following files:
 
 + conf/index.js - adapt the configuration to your need.
 + net - mock netcat socket client which sends fetched twitter stream to a specify tcp server. 
-+ util - utilities which formats tweets to readable format.
-+ stream.js - listen to the public twitter stream for specific keys
++ util - utilities which formats tweets to a readable format.
++ stream.js - listen to the public twitter stream for specific keywords.
 + fetch.js - fetch twitter streams from different twitter accounts.
-
 
 
 The following flume config starts a netcat server which can be used to collect tweets from
@@ -86,6 +94,8 @@ All tweets are then stored in the hdfs directory /tweets
 	hadoop fs -ls /tweets
 	
 A  better way is to create a hive table. This way we can use hive to analyse the tweets.
+You need the [hive-json-serde](https://code.google.com/p/hive-json-serde/) to handle JSON
+with hive.
 
 	CREATE EXTERNAL TABLE IF NOT EXISTS tweets_02_05 (
 			id string, 
