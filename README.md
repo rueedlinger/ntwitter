@@ -2,10 +2,10 @@ ntwitter
 ========
 
 This is an example node.js project to fetch twitter streams. This project can be used to fetch twitter streams and
-send them to a tcp server like netcat in apache flume.
+send them to a tcp server like netcat in Apache Flume.
 
 To play around with this example you need a system with the following installed components
-+ [Node.js](http://nodejs.org/)
++ [Node.js](http://nodejs.org/) which uses twit node module
 + [Apache Hadoop](https://hadoop.apache.org/)
 + [Apache Flume](http://flume.apache.org/)
 + [Apache Hive](http://hive.apache.org/)
@@ -13,8 +13,8 @@ To play around with this example you need a system with the following installed 
 
 This node.js project consist of the following files:
 
-+ conf/index.js - adapt the configuration to your need.
-+ net - mock netcat socket server and tcp client which sends fetched twitter stream (JSON) to a specify tcp flume agent server. 
++ conf/index.js - adapt the configuration to your need. (eg. twitter credentials, which keywords you want to collect, etc. )
++ net - mock netcat socket server and tcp client which sends fetched twitter stream (JSON) to a specify tcp Apache Flume agent server. 
 + util - utilities which formats tweets to a readable format.
 + stream.js - listen to the public twitter stream for specific keywords.
 + fetch.js - fetch twitter streams from different twitter accounts.
@@ -166,4 +166,4 @@ Or the top 10 ngrams (here bigrams -> 2)
 Compute histogram data with 10 "bars" for number of followers.
 
 	ADD JAR /opt/hive-0.12.0/lib/hive-json-serde-0.2.jar;
-	SELECT histogram_numeric(followers, 10) FROM tweets;
+	SELECT explode(histogram_numeric(followers, 10)) FROM tweets;
