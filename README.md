@@ -162,3 +162,8 @@ Or the top 10 ngrams (here bigrams -> 2)
 	ADD JAR /opt/hive-0.12.0/lib/hive-json-serde-0.2.jar;
 	SELECT explode(ngrams(sentences(lower(text)), 2, 10)) AS x FROM tweets;
 	
+	
+Compute histogram data with 10 "bars" for number of followers.
+
+	ADD JAR /opt/hive-0.12.0/lib/hive-json-serde-0.2.jar;
+	SELECT histogram_numeric(followers, 10) FROM tweets;
