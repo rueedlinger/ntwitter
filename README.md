@@ -149,3 +149,16 @@ Then add a external partition for all stored tweets.
 All tweets can then be displayed with the following query.
 
 	select * from tweets;
+	
+	
+We can analyse the top 10 words follow the phrase 'football is ___'
+	
+	ADD JAR /opt/hive-0.12.0/lib/hive-json-serde-0.2.jar;
+	SELECT explode(context_ngrams(sentences(lower(text)), array('football', 'is', null), 10)) from tweets;
+	
+
+Or the top 10 ngrams (here bigrams -> 2)
+
+	ADD JAR /opt/hive-0.12.0/lib/hive-json-serde-0.2.jar;
+	SELECT explode(ngrams(sentences(lower(text)), 2, 10)) AS x FROM tweets;
+	
