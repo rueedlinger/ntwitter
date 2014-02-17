@@ -33,7 +33,7 @@ module.exports.toString = function(tweet) {
 	var created =  new Date(Date.parse(tweet.created_at));
 	var updated = new Date();
 	var id = tweet.id_str;
-	var text = tweet.text.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\t/gm,' ').replace(/#/gm, '').replace(/\s+/g,' ').replace(/_/gm,' ');
+	var text = tweet.text;
 	var lang = tweet.lang;
 	var rcount = tweet.retweet_count;
 	var user = tweet.user;
@@ -69,7 +69,7 @@ module.exports.toJson = function(tweet) {
 		createdDay:  created.getDate(),		
 		userName: userName,
 		userId: userId,
-		text: text.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\t/gm,' ').replace(/#/gm, '').replace(/\s+/g,' ').replace(/_/gm,' '),
+		text: text,
 		lang: lang,
 		rcount: rcount,
 		followers: followers,
