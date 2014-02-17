@@ -49,13 +49,15 @@ module.exports.toJson = function(tweet) {
 	var created =  new Date(Date.parse(tweet.created_at));
 	var updated = new Date();
 	var id = tweet.id_str;
-	var text = tweet.text.replace('\t',' ').replace('#', '');
+	var text = tweet.text;
 	var lang = tweet.lang;
 	var rcount = tweet.retweet_count;
 	var user = tweet.user;
 	var userId = user.id_str;
 	var userName = user.screen_name.replace('\t',' ');
 	var followers = user.followers_count;
+
+
 	
 	var event = {
 		headers: {
@@ -67,7 +69,7 @@ module.exports.toJson = function(tweet) {
 		createdDay:  created.getDate(),		
 		userName: userName,
 		userId: userId,
-		text: text,
+		text: text.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\t/gm,' ').replace(/#/gm, '').replace(/\s+/g,' '),
 		lang: lang,
 		rcount: rcount,
 		followers: followers,
